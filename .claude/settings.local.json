@@ -1,0 +1,31 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(bun run *)",
+      "Read(//Users/tongtin/.bun/bin/**)",
+      "Read(//opt/homebrew/bin/**)",
+      "Read(//Users/tongtin/.local/bin/**)",
+      "Bash(~/.bun/bin/bun run *)",
+      "Bash(curl -s http://localhost:8081/)",
+      "Read(//tmp/**)",
+      "Bash(python3 -c \"import re,sys; h=open\\('/tmp/peeps_page.html'\\).read\\(\\); i=h.find\\('</head>'\\); print\\(h[:i][:1500]\\)\")",
+      "Bash(curl -s -o /dev/null -w \"HTTP %{http_code}, %{size_download} bytes, type=%{content_type}\\\\n\" \"http://localhost:8081/src/styles.css\")",
+      "Bash(curl -s \"http://localhost:8081/src/styles.css\")",
+      "Bash(curl -s -o /dev/null -w \"HTTP %{http_code}, %{size_download} bytes\\\\n\" \"http://localhost:8081/src/styles.css\")",
+      "Bash(python3 -c \"import sys,re,html,json; t=sys.stdin.read\\(\\); m=re.search\\(r'const error = \\(\\\\{.*?\\\\}\\);', t, re.S\\); d=json.loads\\(m.group\\(1\\)\\) if m else {}; print\\('MESSAGE:', d.get\\('message','?'\\)\\); print\\('FRAME:', d.get\\('frame',''\\)[:500]\\)\")",
+      "Bash(curl -s -o /dev/null -w \"css: HTTP %{http_code}\\\\n\" \"http://localhost:8081/src/styles.css\")",
+      "Bash(curl -s -o /dev/null -w \"page: HTTP %{http_code}\\\\n\" \"http://localhost:8081/\")",
+      "Bash(curl -s \"http://localhost:8081/\")",
+      "Bash(echo \"page <title>: $\\(curl -s http://localhost:8081/)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:8081/src/styles.css)",
+      "Bash(echo \"css: $\\(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:8081/src/styles.css\\)\")",
+      "Bash(echo \"Prompt link in head: $\\(curl -s http://localhost:8081/)",
+      "Bash(sort -t: -k2 -rn)",
+      "Bash(xargs sed -i '' 's/font-extrabold/font-bold/g')",
+      "Bash(curl -s -o /dev/null -w '%{http_code}' http://localhost:8081/src/styles.css)",
+      "Bash(echo \"css: $\\(curl -s -o /dev/null -w '%{http_code}' http://localhost:8081/src/styles.css\\)\")",
+      "Bash(curl -s -o /dev/null -w '%{http_code}' http://localhost:8081/)",
+      "Bash(echo \"page: $\\(curl -s -o /dev/null -w '%{http_code}' http://localhost:8081/\\)\")"
+    ]
+  }
+}
