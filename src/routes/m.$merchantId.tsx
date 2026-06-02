@@ -38,16 +38,22 @@ function StorePage() {
     .filter((g) => g.list.length > 0);
 
   return (
-    <AppShell>
+    <AppShell bgWhite>
+      {/* Hero cover */}
+      <div className="relative h-40 w-full overflow-hidden bg-surface">
+        <img src={merchant.cover} alt="" className="h-full w-full object-cover" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/25 to-transparent" />
+      </div>
+
       {/* Store header */}
-      <div className="px-4 pt-5">
-        <div className="flex items-center gap-4">
-          <span className="grid h-[88px] w-[88px] shrink-0 place-items-center rounded-full bg-white ring-1 ring-border shadow-[0_6px_20px_-10px_rgba(17,17,17,0.35)]">
+      <div className="px-4">
+        <div className="relative z-10 -mt-6 flex items-end gap-3">
+          <span className="grid h-[88px] w-[88px] shrink-0 place-items-center rounded-full bg-white ring-[3px] ring-white shadow-[0_8px_24px_-10px_rgba(17,17,17,0.45)]">
             <span className="text-2xl font-bold tracking-tight" style={{ color: merchant.accent }}>
               {merchant.mark}
             </span>
           </span>
-          <div className="min-w-0">
+          <div className="min-w-0 pb-1">
             <div className="flex items-center gap-1.5">
               <h1 className="truncate text-2xl font-bold leading-none">{merchant.name[lang]}</h1>
               {merchant.verified && (
