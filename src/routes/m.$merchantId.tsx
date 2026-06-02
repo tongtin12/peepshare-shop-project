@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Icon } from "@/components/Icon";
 import { AppShell } from "@/components/AppShell";
@@ -18,6 +18,8 @@ function StorePage() {
   const { lang, products } = useStore();
   const merchant = getMerchant(merchantId);
   const [tab, setTab] = useState<Tab>("products");
+  const heroRef = useRef<HTMLDivElement>(null);
+  const [heroIdx, setHeroIdx] = useState(0);
 
   if (!merchant) {
     return (
@@ -37,12 +39,51 @@ function StorePage() {
     .map((c) => ({ category: c, list: items.filter((p) => p.category === c.id) }))
     .filter((g) => g.list.length > 0);
 
+  // Hero slideshow: store cover + product images (deduped)
+  const heroImages = [...new Set([merchant.cover, ...items.map((p) => p.image)])].slice(0, 6);
+  const onHeroScroll = () => {
+    const el = heroRef.current;
+    if (el) setHeroIdx(Math.round(el.scrollLeft / el.clientWidth));
+  };
+  const goToHero = (i: number) => {
+    const el = heroRef.current;
+    if (el) el.scrollTo({ left: i * el.clientWidth, behavior: "smooth" });
+  };
+
   return (
     <AppShell bgWhite>
-      {/* Hero cover */}
-      <div className="relative h-40 w-full overflow-hidden bg-surface">
-        <img src={merchant.cover} alt="" className="h-full w-full object-cover" />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/25 to-transparent" />
+      {/* Hero slideshow */}
+      <div className="relative h-40 w-full bg-surface">
+        <div
+          ref={heroRef}
+          onScroll={onHeroScroll}
+          className="flex h-full snap-x snap-mandatory overflow-x-auto hide-scrollbar"
+        >
+          {heroImages.map((src, i) => (
+            <div key={i} className="relative h-full w-full shrink-0 snap-center">
+              <img src={src} alt="" className="h-full w-full object-cover" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/25 to-transparent" />
+            </div>
+          ))}
+        </div>
+
+        {heroImages.length > 1 && (
+          <>
+            <div className="absolute right-3 top-3 rounded-full bg-black/45 px-2 py-0.5 text-[11px] font-medium text-white backdrop-blur tabular-nums">
+              {heroIdx + 1}/{heroImages.length}
+            </div>
+            <div className="absolute bottom-2.5 left-1/2 flex -translate-x-1/2 gap-1.5">
+              {heroImages.map((_, i) => (
+                <button
+                  key={i}
+                  onClick={() => goToHero(i)}
+                  aria-label={`slide ${i + 1}`}
+                  className={`h-1.5 rounded-full transition-all ${i === heroIdx ? "w-4 bg-white" : "w-1.5 bg-white/55"}`}
+                />
+              ))}
+            </div>
+          </>
+        )}
       </div>
 
       {/* Store header */}
